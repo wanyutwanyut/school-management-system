@@ -1,0 +1,14 @@
+[
+  {
+    "id": "1",
+    "name": "计算机协会",
+    "description": "专注于计算机技术交流",
+    "adminId": "2"
+  },
+  {
+    "id": "2",
+    "name": "文学社",
+    "description": "文学爱好者的聚集地",
+    "adminId": ""
+  }
+]

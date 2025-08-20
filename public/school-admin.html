@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>社团管理系统 - 学校管理员端</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <!-- 顶部导航 -->
+    <nav class="bg-blue-600 text-white shadow-md">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <i class="fa fa-university text-2xl mr-3"></i>
+                <h1 class="text-xl font-bold">社团管理系统</h1>
+            </div>
+            <div class="flex items-center">
+                <span id="userInfo" class="mr-4"></span>
+                <button id="logoutBtn" class="hover:text-blue-200 transition">
+                    <i class="fa fa-sign-out mr-1"></i>退出登录
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <div class="container mx-auto px-4 py-6">
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">学校管理员工作台</h2>
+            <p class="text-gray-600">欢迎使用社团管理系统学校端，您可以在这里审批工时认定材料和活动申报。</p>
+        </div>
+
+        <!-- 标签页导航 -->
+        <div class="mb-6 border-b border-gray-200">
+            <ul class="flex flex-wrap -mb-px" id="tabs" role="tablist">
+                <li class="mr-2" role="presentation">
+                    <button class="inline-block p-4 border-b-2 border-blue-500 text-blue-600 font-medium" id="work-approval-tab" data-tab="work-approval" type="button" role="tab">
+                        <i class="fa fa-clock-o mr-1"></i>工时认定审批
+                    </button>
+                </li>
+                <li class="mr-2" role="presentation">
+                    <button class="inline-block p-4 border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300" id="activity-approval-tab" data-tab="activity-approval" type="button" role="tab">
+                        <i class="fa fa-calendar mr-1"></i>活动申报审批
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 工时认定审批 -->
+        <div id="work-approval-tab-content" class="tab-content">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-4">工时认定审批</h3>
+                
+                <div class="mb-4">
+                    <label for="workFilter" class="block text-gray-700 font-medium mb-2">筛选状态</label>
+                    <select id="workFilter" class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="all">全部</option>
+                        <option value="pending">待审批</option>
+                        <option value="approved">已批准</option>
+                        <option value="rejected">已拒绝</option>
+                    </select>
+                </div>
+
+                <!-- 工时认定列表 -->
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700">
+                                <th class="py-3 px-4 text-left">社团</th>
+                                <th class="py-3 px-4 text-left">提交人</th>
+                                <th class="py-3 px-4 text-left">提交时间</th>
+                                <th class="py-3 px-4 text-left">内容</th>
+                                <th class="py-3 px-4 text-left">状态</th>
+                                <th class="py-3 px-4 text-left">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="workApprovalList">
+                            <!-- 工时记录将通过JavaScript动态加载 -->
+                            <tr>
+                                <td colspan="6" class="py-4 px-4 text-center text-gray-500">加载中...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 活动申报审批 -->
+        <div id="activity-approval-tab-content" class="tab-content hidden">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-4">活动申报审批</h3>
+                
+                <div class="mb-4">
+                    <label for="activityFilter" class="block text-gray-700 font-medium mb-2">筛选状态</label>
+                    <select id="activityFilter" class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="all">全部</option>
+                        <option value="pending">待审批</option>
+                        <option value="approved">已批准</option>
+                        <option value="rejected">已拒绝</option>
+                    </select>
+                </div>
+
+                <!-- 活动列表 -->
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700">
+                                <th class="py-3 px-4 text-left">社团</th>
+                                <th class="py-3 px-4 text-left">标题</th>
+                                <th class="py-3 px-4 text-left">提交时间</th>
+                                <th class="py-3 px-4 text-left">状态</th>
+                                <th class="py-3 px-4 text-left">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="activityApprovalList">
+                            <!-- 活动记录将通过JavaScript动态加载 -->
+                            <tr>
+                                <td colspan="5" class="py-4 px-4 text-center text-gray-500">加载中...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 审批确认模态框 -->
+    <div id="approvalModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6">
+            <h3 id="modalTitle" class="text-xl font-bold text-gray-800 mb-4">审批确认</h3>
+            <p id="modalMessage" class="text-gray-600 mb-6"></p>
+            <input type="hidden" id="modalItemId">
+            <input type="hidden" id="modalItemType">
+            <div class="flex justify-end space-x-3">
+                <button id="cancelApprovalBtn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded transition">
+                    取消
+                </button>
+                <button id="rejectBtn" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded transition">
+                    拒绝
+                </button>
+                <button id="approveBtn" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded transition">
+                    批准
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/common.js"></script>
+    <script>
+        // 检查登录状态
+        const user = checkLogin();
+        if (!user || user.role !== 'school-admin') {
+            window.location.href = '/';
+        }
+
+        // 显示用户信息
+        document.getElementById('userInfo').textContent = `欢迎，${user.username} (学校管理员)`;
+
+        // 退出登录
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            logout();
+        });
+
+        // 标签页切换
+        document.querySelectorAll('#tabs button').forEach(button => {
+            button.addEventListener('click', () => {
+                // 移除所有标签页的激活状态
+                document.querySelectorAll('#tabs button').forEach(btn => {
+                    btn.classList.remove('border-blue-500', 'text-blue-600');
+                    btn.classList.add('border-transparent', 'hover:text-gray-600', 'hover:border-gray-300');
+                });
+                
+                // 隐藏所有内容
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.add('hidden');
+                });
+                
+                // 激活当前标签页
+                button.classList.remove('border-transparent', 'hover:text-gray-600', 'hover:border-gray-300');
+                button.classList.add('border-blue-500', 'text-blue-600');
+                
+                // 显示当前内容
+                const tabId = button.getAttribute('data-tab');
+                document.getElementById(`${tabId}-tab-content`).classList.remove('hidden');
+            });
+        });
+
+        // 模态框操作
+        document.getElementById('cancelApprovalBtn').addEventListener('click', () => {
+            document.getElementById('approvalModal').classList.add('hidden');
+        });
+
+        // 批准操作
+        document.getElementById('approveBtn').addEventListener('click', async () => {
+            const itemId = document.getElementById('modalItemId').value;
+            const itemType = document.getElementById('modalItemType').value;
+            
+            try {
+                if (itemType === 'work') {
+                    await api.put(`/api/work-hours/${itemId}/approve`, {
+                        status: 'approved',
+                        approverId: user.id
+                    });
+                    loadWorkApprovals(document.getElementById('workFilter').value);
+                } else if (itemType === 'activity') {
+                    await api.put(`/api/activities/${itemId}/approve`, {
+                        status: 'approved',
+                        approverId: user.id
+                    });
+                    loadActivityApprovals(document.getElementById('activityFilter').value);
+                }
+                
+                document.getElementById('approvalModal').classList.add('hidden');
+                showToast('审批已通过！');
+            } catch (error) {
+                showToast('操作失败，请稍后重试', 'error');
+                console.error('审批错误:', error);
+            }
+        });
+
+        // 拒绝操作
+        document.getElementById('rejectBtn').addEventListener('click', async () => {
+            const itemId = document.getElementById('modalItemId').value;
+            const itemType = document.getElementById('modalItemType').value;
+            
+            try {
+                if (itemType === 'work') {
+                    await api.put(`/api/work-hours/${itemId}/approve`, {
+                        status: 'rejected',
+                        approverId: user.id
+                    });
+                    loadWorkApprovals(document.getElementById('workFilter').value);
+                } else if (itemType === 'activity') {
+                    await api.put(`/api/activities/${itemId}/approve`, {
+                        status: 'rejected',
+                        approverId: user.id
+                    });
+                    loadActivityApprovals(document.getElementById('activityFilter').value);
+                }
+                
+                document.getElementById('approvalModal').classList.add('hidden');
+                showToast('已拒绝该申请！');
+            } catch (error) {
+                showToast('操作失败，请稍后重试', 'error');
+                console.error('审批错误:', error);
+            }
+        });
+
+        // 筛选器变化事件
+        document.getElementById('workFilter').addEventListener('change', (e) => {
+            loadWorkApprovals(e.target.value);
+        });
+
+        document.getElementById('activityFilter').addEventListener('change', (e) => {
+            loadActivityApprovals(e.target.value);
+        });
+
+        // 加载工时审批列表
+        async function loadWorkApprovals(filter = 'all') {
+            try {
+                const works = await api.get('/api/work-hours?role=school-admin');
+                const workApprovalList = document.getElementById('workApprovalList');
+                
+                // 获取社团信息
+                const clubs = await api.get('/api/clubs');
+                const clubsMap = {};
+                clubs.forEach(club => {
+                    clubsMap[club.id] = club;
+                });
+                
+                // 获取用户信息
+                const usersSet = new Set();
+                works.forEach(work => {
+                    usersSet.add(work.submitterId);
+                });
+                
+                const usersMap = {};
+                for (const userId of usersSet) {
+                    const userData = await api.get(`/api/users/${userId}`);
+                    usersMap[userId] = userData;
+                }
+                
+                // 筛选数据
+                let filteredWorks = works;
+                if (filter !== 'all') {
+                    filteredWorks = works.filter(work => work.status === filter);
+                }
+                
+                // 按提交时间降序排序
+                filteredWorks.sort((a, b) => new Date(b.submitTime) - new Date(a.submitTime));
+                
+                if (filteredWorks.length === 0) {
+                    workApprovalList.innerHTML = `
+                        <tr>
+                            <td colspan="6" class="py-4 px-4 text-center text-gray-500">暂无工时认定记录</td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                workApprovalList.innerHTML = filteredWorks.map(work => `
+                    <tr class="border-t hover:bg-gray-50">
+                        <td class="py-3 px-4">${clubsMap[work.clubId]?.name || '未知社团'}</td>
+                        <td class="py-3 px-4">${usersMap[work.submitterId]?.username || '未知用户'}</td>
+                        <td class="py-3 px-4">${formatDate(work.submitTime)}</td>
+                        <td class="py-3 px-4">${work.content}</td>
+                        <td class="py-3 px-4">
+                            <span class="px-2 py-1 rounded text-sm ${
+                                work.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                                work.status === 'approved' ? 'bg-green-100 text-green-800' :
+                                'bg-red-100 text-red-800'
+                            }">
+                                ${getStatusText(work.status)}
+                            </span>
+                        </td>
+                        <td class="py-3 px-4">
+                            ${work.status === 'pending' ? `
+                                <button class="approve-btn text-green-600 hover:text-green-800 mr-3" 
+                                    data-id="${work.id}" data-type="work" 
+                                    data-title="工时认定审批">
+                                    <i class="fa fa-check-circle mr-1"></i>批准
+                                </button>
+                                <button class="reject-btn text-red-600 hover:text-red-800"
+                                    data-id="${work.id}" data-type="work"
+                                    data-title="工时认定审批">
+                                    <i class="fa fa-times-circle mr-1"></i>拒绝
+                                </button>
+                            ` : '无操作'}
+                        </td>
+                    </tr>
+                `).join('');
+                
+                // 绑定审批按钮事件
+                document.querySelectorAll('.approve-btn, .reject-btn').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const id = button.getAttribute('data-id');
+                        const type = button.getAttribute('data-type');
+                        const title = button.getAttribute('data-title');
+                        const isApprove = button.classList.contains('approve-btn');
+                        
+                        document.getElementById('modalTitle').textContent = title;
+                        document.getElementById('modalMessage').textContent = `确定要${isApprove ? '批准' : '拒绝'}此申请吗？`;
+                        document.getElementById('modalItemId').value = id;
+                        document.getElementById('modalItemType').value = type;
+                        document.getElementById('approvalModal').classList.remove('hidden');
+                    });
+                });
+            } catch (error) {
+                console.error('加载工时审批列表错误:', error);
+                document.getElementById('workApprovalList').innerHTML = `
+                    <tr>
+                        <td colspan="6" class="py-4 px-4 text-center text-red-500">加载失败，请刷新页面重试</td>
+                    </tr>
+                `;
+            }
+        }
+
+        // 加载活动审批列表
+        async function loadActivityApprovals(filter = 'all') {
+            try {
+                const activities = await api.get('/api/activities?role=school-admin');
+                const activityApprovalList = document.getElementById('activityApprovalList');
+                
+                // 获取社团信息
+                const clubs = await api.get('/api/clubs');
+                const clubsMap = {};
+                clubs.forEach(club => {
+                    clubsMap[club.id] = club;
+                });
+                
+                // 筛选数据
+                let filteredActivities = activities;
+                if (filter !== 'all') {
+                    filteredActivities = activities.filter(activity => activity.status === filter);
+                }
+                
+                // 按提交时间降序排序
+                filteredActivities.sort((a, b) => new Date(b.submitTime) - new Date(a.submitTime));
+                
+                if (filteredActivities.length === 0) {
+                    activityApprovalList.innerHTML = `
+                        <tr>
+                            <td colspan="5" class="py-4 px-4 text-center text-gray-500">暂无活动申报记录</td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                activityApprovalList.innerHTML = filteredActivities.map(activity => `
+                    <tr class="border-t hover:bg-gray-50">
+                        <td class="py-3 px-4">${clubsMap[activity.clubId]?.name || '未知社团'}</td>
+                        <td class="py-3 px-4">${activity.title}</td>
+                        <td class="py-3 px-4">${formatDate(activity.submitTime)}</td>
+                        <td class="py-3 px-4">
+                            <span class="px-2 py-1 rounded text-sm ${
+                                activity.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                                activity.status === 'approved' ? 'bg-green-100 text-green-800' :
+                                'bg-red-100 text-red-800'
+                            }">
+                                ${getStatusText(activity.status)}
+                            </span>
+                        </td>
+                        <td class="py-3 px-4">
+                            ${activity.status === 'pending' ? `
+                                <button class="approve-btn text-green-600 hover:text-green-800 mr-3" 
+                                    data-id="${activity.id}" data-type="activity"
+                                    data-title="活动申报审批">
+                                    <i class="fa fa-check-circle mr-1"></i>批准
+                                </button>
+                                <button class="reject-btn text-red-600 hover:text-red-800"
+                                    data-id="${activity.id}" data-type="activity"
+                                    data-title="活动申报审批">
+                                    <i class="fa fa-times-circle mr-1"></i>拒绝
+                                </button>
+                            ` : '无操作'}
+                        </td>
+                    </tr>
+                `).join('');
+                
+                // 绑定审批按钮事件
+                document.querySelectorAll('.approve-btn, .reject-btn').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const id = button.getAttribute('data-id');
+                        const type = button.getAttribute('data-type');
+                        const title = button.getAttribute('data-title');
+                        const isApprove = button.classList.contains('approve-btn');
+                        
+                        document.getElementById('modalTitle').textContent = title;
+                        document.getElementById('modalMessage').textContent = `确定要${isApprove ? '批准' : '拒绝'}此申请吗？`;
+                        document.getElementById('modalItemId').value = id;
+                        document.getElementById('modalItemType').value = type;
+                        document.getElementById('approvalModal').classList.remove('hidden');
+                    });
+                });
+            } catch (error) {
+                console.error('加载活动审批列表错误:', error);
+                document.getElementById('activityApprovalList').innerHTML = `
+                    <tr>
+                        <td colspan="5" class="py-4 px-4 text-center text-red-500">加载失败，请刷新页面重试</td>
+                    </tr>
+                `;
+            }
+        }
+
+        // 页面加载时加载数据
+        loadWorkApprovals();
+        loadActivityApprovals();
+    </script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+[
+  {
+    "id": "1",
+    "username": "student1",
+    "password": "123",
+    "role": "student",
+    "clubId": "1"
+  },
+  {
+    "id": "2",
+    "username": "clubadmin1",
+    "password": "123",
+    "role": "club-admin",
+    "clubId": "1"
+  },
+  {
+    "id": "3",
+    "username": "schooladmin",
+    "password": "123",
+    "role": "school-admin"
+  }
+]

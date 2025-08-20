@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>社团管理系统 - 社团管理员端</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <!-- 顶部导航 -->
+    <nav class="bg-blue-600 text-white shadow-md">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <i class="fa fa-university text-2xl mr-3"></i>
+                <h1 class="text-xl font-bold">社团管理系统</h1>
+            </div>
+            <div class="flex items-center">
+                <span id="userInfo" class="mr-4"></span>
+                <button id="logoutBtn" class="hover:text-blue-200 transition">
+                    <i class="fa fa-sign-out mr-1"></i>退出登录
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <div class="container mx-auto px-4 py-6">
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">社团管理员工作台</h2>
+            <p id="clubInfo" class="text-gray-600">加载中...</p>
+        </div>
+
+        <!-- 标签页导航 -->
+        <div class="mb-6 border-b border-gray-200">
+            <ul class="flex flex-wrap -mb-px" id="tabs" role="tablist">
+                <li class="mr-2" role="presentation">
+                    <button class="inline-block p-4 border-b-2 border-blue-500 text-blue-600 font-medium" id="work-tab" data-tab="work" type="button" role="tab">
+                        <i class="fa fa-clock-o mr-1"></i>工时认定管理
+                    </button>
+                </li>
+                <li class="mr-2" role="presentation">
+                    <button class="inline-block p-4 border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300" id="activity-tab" data-tab="activity" type="button" role="tab">
+                        <i class="fa fa-calendar mr-1"></i>活动申报管理
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 工时认定管理 -->
+        <div id="work-tab-content" class="tab-content">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-gray-800">提交工时认定材料</h3>
+                    <button id="toggleWorkFormBtn" class="bg-blue-600 hover:bg-blue-700 text-white py-1 px-3 rounded transition">
+                        <i class="fa fa-plus mr-1"></i>新增
+                    </button>
+                </div>
+
+                <!-- 表单区域 -->
+                <div id="workFormContainer" class="hidden mb-6 border-t pt-4">
+                    <form id="workForm" class="space-y-4">
+                        <div>
+                            <label for="workContent" class="block text-gray-700 font-medium mb-2">工时认定内容</label>
+                            <textarea id="workContent" rows="4" required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                        </div>
+                        <div class="flex justify-end">
+                            <button type="button" id="cancelWorkBtn" class="mr-2 bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded transition">
+                                取消
+                            </button>
+                            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded transition">
+                                <i class="fa fa-save mr-1"></i>提交
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- 工时认定列表 -->
+                <div>
+                    <h4 class="text-lg font-semibold text-gray-700 mb-3">本社团工时认定记录</h4>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white">
+                            <thead>
+                                <tr class="bg-gray-100 text-gray-700">
+                                    <th class="py-3 px-4 text-left">提交人</th>
+                                    <th class="py-3 px-4 text-left">提交时间</th>
+                                    <th class="py-3 px-4 text-left">内容</th>
+                                    <th class="py-3 px-4 text-left">状态</th>
+                                </tr>
+                            </thead>
+                            <tbody id="workList">
+                                <!-- 工时记录将通过JavaScript动态加载 -->
+                                <tr>
+                                    <td colspan="4" class="py-4 px-4 text-center text-gray-500">加载中...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 活动申报管理 -->
+        <div id="activity-tab-content" class="tab-content hidden">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-gray-800">活动申报</h3>
+                    <button id="toggleActivityFormBtn" class="bg-blue-600 hover:bg-blue-700 text-white py-1 px-3 rounded transition">
+                        <i class="fa fa-plus mr-1"></i>新增活动
+                    </button>
+                </div>
+
+                <!-- 表单区域 -->
+                <div id="activityFormContainer" class="hidden mb-6 border-t pt-4">
+                    <form id="activityForm" class="space-y-4">
+                        <div>
+                            <label for="activityTitle" class="block text-gray-700 font-medium mb-2">活动标题</label>
+                            <input type="text" id="activityTitle" required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label for="activityContent" class="block text-gray-700 font-medium mb-2">活动内容</label>
+                            <textarea id="activityContent" rows="4" required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                        </div>
+                        <div class="flex justify-end">
+                            <button type="button" id="cancelActivityBtn" class="mr-2 bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded transition">
+                                取消
+                            </button>
+                            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded transition">
+                                <i class="fa fa-save mr-1"></i>提交申报
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- 活动列表 -->
+                <div>
+                    <h4 class="text-lg font-semibold text-gray-700 mb-3">本社团活动申报记录</h4>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white">
+                            <thead>
+                                <tr class="bg-gray-100 text-gray-700">
+                                    <th class="py-3 px-4 text-left">标题</th>
+                                    <th class="py-3 px-4 text-left">提交时间</th>
+                                    <th class="py-3 px-4 text-left">状态</th>
+                                </tr>
+                            </thead>
+                            <tbody id="activityList">
+                                <!-- 活动记录将通过JavaScript动态加载 -->
+                                <tr>
+                                    <td colspan="3" class="py-4 px-4 text-center text-gray-500">加载中...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/common.js"></script>
+    <script>
+        // 检查登录状态
+        const user = checkLogin();
+        if (!user || user.role !== 'club-admin') {
+            window.location.href = '/';
+        }
+
+        // 显示用户信息
+        document.getElementById('userInfo').textContent = `欢迎，${user.username} (社团管理员)`;
+
+        // 退出登录
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            logout();
+        });
+
+        // 标签页切换
+        document.querySelectorAll('#tabs button').forEach(button => {
+            button.addEventListener('click', () => {
+                // 移除所有标签页的激活状态
+                document.querySelectorAll('#tabs button').forEach(btn => {
+                    btn.classList.remove('border-blue-500', 'text-blue-600');
+                    btn.classList.add('border-transparent', 'hover:text-gray-600', 'hover:border-gray-300');
+                });
+                
+                // 隐藏所有内容
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.add('hidden');
+                });
+                
+                // 激活当前标签页
+                button.classList.remove('border-transparent', 'hover:text-gray-600', 'hover:border-gray-300');
+                button.classList.add('border-blue-500', 'text-blue-600');
+                
+                // 显示当前内容
+                const tabId = button.getAttribute('data-tab');
+                document.getElementById(`${tabId}-tab-content`).classList.remove('hidden');
+            });
+        });
+
+        // 加载社团信息
+        async function loadClubInfo() {
+            try {
+                const club = await api.get(`/api/clubs/${user.clubId}`);
+                document.getElementById('clubInfo').textContent = `当前管理社团：${club.name} - ${club.description}`;
+            } catch (error) {
+                console.error('加载社团信息错误:', error);
+                document.getElementById('clubInfo').textContent = '加载社团信息失败';
+            }
+        }
+
+        // 工时表单处理
+        document.getElementById('toggleWorkFormBtn').addEventListener('click', () => {
+            const formContainer = document.getElementById('workFormContainer');
+            formContainer.classList.toggle('hidden');
+        });
+
+        document.getElementById('cancelWorkBtn').addEventListener('click', () => {
+            document.getElementById('workFormContainer').classList.add('hidden');
+            document.getElementById('workForm').reset();
+        });
+
+        document.getElementById('workForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const content = document.getElementById('workContent').value;
+            
+            try {
+                await api.post('/api/work-hours', {
+                    submitterId: user.id,
+                    submitterRole: user.role,
+                    clubId: user.clubId,
+                    content: content
+                });
+                
+                // 提交成功后刷新列表并隐藏表单
+                loadWorkHours();
+                document.getElementById('workForm').reset();
+                document.getElementById('workFormContainer').classList.add('hidden');
+                
+                showToast('工时认定材料提交成功！');
+            } catch (error) {
+                showToast('提交失败，请稍后重试', 'error');
+                console.error('提交工时错误:', error);
+            }
+        });
+
+        // 活动表单处理
+        document.getElementById('toggleActivityFormBtn').addEventListener('click', () => {
+            const formContainer = document.getElementById('activityFormContainer');
+            formContainer.classList.toggle('hidden');
+        });
+
+        document.getElementById('cancelActivityBtn').addEventListener('click', () => {
+            document.getElementById('activityFormContainer').classList.add('hidden');
+            document.getElementById('activityForm').reset();
+        });
+
+        document.getElementById('activityForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const title = document.getElementById('activityTitle').value;
+            const content = document.getElementById('activityContent').value;
+            
+            try {
+                await api.post('/api/activities', {
+                    clubId: user.clubId,
+                    title: title,
+                    content: content
+                });
+                
+                // 提交成功后刷新列表并隐藏表单
+                loadActivities();
+                document.getElementById('activityForm').reset();
+                document.getElementById('activityFormContainer').classList.add('hidden');
+                
+                showToast('活动申报提交成功！');
+            } catch (error) {
+                showToast('提交失败，请稍后重试', 'error');
+                console.error('提交活动错误:', error);
+            }
+        });
+
+        // 加载工时认定记录
+        async function loadWorkHours() {
+            try {
+                const works = await api.get(`/api/work-hours?clubId=${user.clubId}&role=club-admin`);
+                const workList = document.getElementById('workList');
+                
+                if (works.length === 0) {
+                    workList.innerHTML = `
+                        <tr>
+                            <td colspan="4" class="py-4 px-4 text-center text-gray-500">暂无工时认定记录</td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                // 按提交时间降序排序
+                works.sort((a, b) => new Date(b.submitTime) - new Date(a.submitTime));
+                
+                // 获取用户信息映射
+                const usersMap = {};
+                for (const work of works) {
+                    if (!usersMap[work.submitterId]) {
+                        const userData = await api.get(`/api/users/${work.submitterId}`);
+                        usersMap[work.submitterId] = userData;
+                    }
+                }
+                
+                workList.innerHTML = works.map(work => `
+                    <tr class="border-t hover:bg-gray-50">
+                        <td class="py-3 px-4">${usersMap[work.submitterId]?.username || '未知用户'}</td>
+                        <td class="py-3 px-4">${formatDate(work.submitTime)}</td>
+                        <td class="py-3 px-4">${work.content}</td>
+                        <td class="py-3 px-4">
+                            <span class="px-2 py-1 rounded text-sm ${
+                                work.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                                work.status === 'approved' ? 'bg-green-100 text-green-800' :
+                                'bg-red-100 text-red-800'
+                            }">
+                                ${getStatusText(work.status)}
+                            </span>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('加载工时记录错误:', error);
+                document.getElementById('workList').innerHTML = `
+                    <tr>
+                        <td colspan="4" class="py-4 px-4 text-center text-red-500">加载失败，请刷新页面重试</td>
+                    </tr>
+                `;
+            }
+        }
+
+        // 加载活动记录
+        async function loadActivities() {
+            try {
+                const activities = await api.get(`/api/activities?clubId=${user.clubId}&role=club-admin`);
+                const activityList = document.getElementById('activityList');
+                
+                if (activities.length === 0) {
+                    activityList.innerHTML = `
+                        <tr>
+                            <td colspan="3" class="py-4 px-4 text-center text-gray-500">暂无活动申报记录</td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                // 按提交时间降序排序
+                activities.sort((a, b) => new Date(b.submitTime) - new Date(a.submitTime));
+                
+                activityList.innerHTML = activities.map(activity => `
+                    <tr class="border-t hover:bg-gray-50">
+                        <td class="py-3 px-4">${activity.title}</td>
+                        <td class="py-3 px-4">${formatDate(activity.submitTime)}</td>
+                        <td class="py-3 px-4">
+                            <span class="px-2 py-1 rounded text-sm ${
+                                activity.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                                activity.status === 'approved' ? 'bg-green-100 text-green-800' :
+                                'bg-red-100 text-red-800'
+                            }">
+                                ${getStatusText(activity.status)}
+                            </span>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('加载活动记录错误:', error);
+                document.getElementById('activityList').innerHTML = `
+                    <tr>
+                        <td colspan="3" class="py-4 px-4 text-center text-red-500">加载失败，请刷新页面重试</td>
+                    </tr>
+                `;
+            }
+        }
+
+        // 页面加载时加载数据
+        loadClubInfo();
+        loadWorkHours();
+        loadActivities();
+    </script>
+</body>
+</html>
