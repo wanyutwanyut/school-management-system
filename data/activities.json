@@ -1,0 +1,22 @@
+[
+  {
+    "id": "85293095-9a39-42f4-833f-8f4e8085177b",
+    "clubId": "1",
+    "title": "活动",
+    "content": "实例活动",
+    "status": "rejected",
+    "submitTime": "2025-08-18T14:21:04.282Z",
+    "approveTime": "2025-08-18T14:21:26.302Z",
+    "approverId": "3"
+  },
+  {
+    "id": "c13808ce-56d9-483b-941e-167c2621af47",
+    "clubId": "1",
+    "title": "d",
+    "content": "ddd",
+    "status": "rejected",
+    "submitTime": "2025-08-18T14:21:47.152Z",
+    "approveTime": "2025-08-18T14:21:59.438Z",
+    "approverId": "3"
+  }
+]
