@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>系统首页 - 社团管理系统</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .sidebar-item {
+                @apply flex items-center p-3 text-gray-600 hover:bg-primary/5 hover:text-primary rounded-lg transition-all duration-200;
+            }
+            .sidebar-item.active {
+                @apply bg-primary/10 text-primary font-medium;
+            }
+            .card-shadow {
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            }
+            .btn-hover {
+                @apply hover:shadow-md transition-all duration-200 transform hover:-translate-y-0.5;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    <header class="bg-white shadow-sm p-4 z-10">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold text-primary">
+                合肥市第一中学社团、工时管理系统
+            </h1>
+            <div id="userInfo" class="flex items-center">
+                <span class="mr-4"></span>
+                <button id="logoutBtn" class="text-gray-600 hover:text-primary transition-colors">
+                    <i class="fa fa-sign-out mr-1"></i>退出登录
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <div class="flex flex-1 overflow-hidden">
+        <!-- 侧边栏 -->
+        <aside class="w-64 bg-white shadow-sm h-[calc(100vh-64px)] overflow-y-auto transition-all duration-300 ease-in-out">
+            <nav class="p-4">
+                <ul class="space-y-1">
+                    <!-- 仪表盘 -->
+                    <li>
+                        <a href="#" class="sidebar-item active">
+                            <i class="fa fa-dashboard w-5 mr-3"></i>
+                            <span>首页</span>
+                        </a>
+                    </li>
+                    
+                    <!-- 工时管理 -->
+                    <li class="mt-4">
+                        <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider px-3">工时管理</span>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-item ml-2">
+                            <i class="fa fa-file-text-o w-5 mr-3"></i>
+                            <span>提交工时材料</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-item ml-2">
+                            <i class="fa fa-check-square-o w-5 mr-3"></i>
+                            <span>审批工时材料</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-item ml-2">
+                            <i class="fa fa-download w-5 mr-3"></i>
+                            <span>导出工时记录</span>
+                        </a>
+                    </li>
+                    
+                    <!-- 活动管理 -->
+                    <li class="mt-4">
+                        <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider px-3">活动管理</span>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-item ml-2">
+                            <i class="fa fa-calendar-plus-o w-5 mr-3"></i>
+                            <span>申报活动</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-item ml-2">
+                            <i class="fa fa-check-circle-o w-5 mr-3"></i>
+                            <span>审批活动</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-item ml-2">
+                            <i class="fa fa-calendar-check-o w-5 mr-3"></i>
+                            <span>活动时间备案</span>
+                        </a>
+                    </li>
+                    
+                    <!-- 社团管理 -->
+                    <li class="mt-4">
+                        <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider px-3">社团管理</span>
+                    </li>
+                    
+                    <li>
+                        <a href="#" class="sidebar-item ml-2">
+                            <i class="fa fa-cog w-5 mr-3"></i>
+                            <span>社团信息管理</span>
+                        </a>
+                    </li>
+                    
+                    
+                    <!-- 系统管理 -->
+                    <li class="mt-4">
+                        <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider px-3">系统管理</span>
+                    </li>
+                    <!-- 可以根据需要添加更多系统管理子项 -->
+                </ul>
+            </nav>
+        </aside>
+        
+        <!-- 主内容区 -->
+        <main class="flex-1 overflow-y-auto p-6">
+            <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+                <h2 class="text-2xl font-bold mb-4">欢迎使用社团管理系统</h2>
+                <p class="text-gray-600">您已成功登录系统，可以使用各项功能。</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white rounded-xl shadow-sm p-6 text-center hover:shadow-md transition-shadow">
+                    <div class="text-primary text-4xl mb-3">
+                        <i class="fa fa-users"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">成员管理</h3>
+                    <p class="text-gray-500 text-sm">管理社团成员信息与权限</p>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-sm p-6 text-center hover:shadow-md transition-shadow">
+                    <div class="text-primary text-4xl mb-3">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">活动管理</h3>
+                    <p class="text-gray-500 text-sm">创建与管理社团活动</p>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-sm p-6 text-center hover:shadow-md transition-shadow">
+                    <div class="text-primary text-4xl mb-3">
+                        <i class="fa fa-bar-chart"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">数据统计</h3>
+                    <p class="text-gray-500 text-sm">查看社团数据统计报表</p>
+                </div>
+            </div>
+            <tr>
+                                        <td class="px-4 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="h-8 w-8 rounded-full bg-info/10 flex items-center justify-center text-info mr-3">
+                                                    <i class="fa fa-file-text-o"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="text-sm font-medium">工时认定材料</div>
+                                                    <div class="text-xs text-gray-500">志愿者服务</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <img src="https://picsum.photos/id/1012/32/32" alt="用户头像" class="h-6 w-6 rounded-full mr-2">
+                                                <span class="text-sm">张三</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            2023-06-15 09:23
+                                        </td>
+                                        <td class="px-4 py-4 whitespace-nowrap">
+                                            <span class="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-800">待审批</span>
+                                        </td>
+                                        <td class="px-4 py-4 whitespace-nowrap text-right text-sm">
+                                            <button class="text-primary hover:text-primary/80 mr-3">审批</button>
+                                            <button class="text-gray-500 hover:text-gray-700">查看</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="h-8 w-8 rounded-full bg-warning/10 flex items-center justify-center text-warning mr-3">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="text-sm font-medium">活动申报</div>
+                                                    <div class="text-xs text-gray-500">学术讲座</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <img src="https://picsum.photos/id/1025/32/32" alt="用户头像" class="h-6 w-6 rounded-full mr-2">
+                                                <span class="text-sm">李四</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            2023-06-14 16:45
+                                        </td>
+                                        <td class="px-4 py-4 whitespace-nowrap">
+                                            <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">已通过</span>
+                                        </td>
+                                        <td class="px-4 py-4 whitespace-nowrap text-right text-sm">
+                                            <button class="text-gray-500 hover:text-gray-700">查看</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="h-8 w-8 rounded-full bg-danger/10 flex items-center justify-center text-danger mr-3">
+                                                    <i class="fa fa-ban"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="text-sm font-medium">社团停用申请</div>
+                                                    <div class="text-xs text-gray-500">计算机协会</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <img src="https://picsum.photos/id/1027/32/32" alt="用户头像" class="h-6 w-6 rounded-full mr-2">
+                                                <span class="text-sm">王五</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            2023-06-14 10:12
+                                        </td>
+                                        <td class="px-4 py-4 whitespace-nowrap">
+                                            <span class="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800">已拒绝</span>
+                                        </td>
+                                        <td class="px-4 py-4 whitespace-nowrap text-right text-sm">
+                                            <button class="text-gray-500 hover:text-gray-700">查看</button>
+                                        </td>
+                                    </tr>
+
+            <!-- 可以添加更多仪表板内容，如统计图表、最近活动等 -->
+        </main>
+    </div>
+
+    <script>
+        // 页面加载时验证登录状态
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = JSON.parse(localStorage.getItem('user'));
+            const token = localStorage.getItem('token');
+            
+            // 如果没有登录信息，跳转到登录页
+            if (!user || !token) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            // 显示用户信息
+            document.querySelector('#userInfo span').textContent = `欢迎，${user.name}（${user.role}）`;
+            
+            // 测试接口连接
+            try {
+                const response = await fetch('http://localhost:3000/api/test', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('验证失败');
+                }
+            } catch (error) {
+                // 验证失败，清除登录状态
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                window.location.href = 'index.html';
+            }
+            
+            // 退出登录功能
+            document.getElementById('logoutBtn').addEventListener('click', () => {
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                window.location.href = 'index.html';
+            });
+
+            // 侧边栏项点击事件
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    // 移除所有项的active类
+                    document.querySelectorAll('.sidebar-item').forEach(i => {
+                        i.classList.remove('active');
+                    });
+                    // 给当前点击项添加active类
+                    e.currentTarget.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
